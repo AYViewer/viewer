@@ -487,6 +487,19 @@ void HttpLibcurl::policyUpdated(unsigned int policy_class)
         policy.stallPolicy(policy_class, false);
         mDirtyPolicy[policy_class] = false;
 
+        if (options.mPipelining > 2)
+        {
+            // We'll try to do pipelining on this multihandle (if HTTP/2)
+            check_curl_multi_setopt(multi_handle,
+                                     CURLMOPT_PIPELINING,
+                                     2L);
+            check_curl_multi_setopt(multi_handle,
+                                     CURLMOPT_MAX_HOST_CONNECTIONS,
+                                     long(options.mPerHostConnectionLimit));
+            check_curl_multi_setopt(multi_handle,
+                                     CURLMOPT_MAX_TOTAL_CONNECTIONS,
+                                     long(options.mConnectionLimit));
+        }
         if (options.mPipelining > 1)
         {
             // We'll try to do pipelining on this multihandle

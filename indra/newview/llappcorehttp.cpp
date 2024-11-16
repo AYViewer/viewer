@@ -58,58 +58,58 @@ static const struct
     U32                         mMin;
     U32                         mMax;
     U32                         mRate;
-    bool                        mPipelined;
+    U32                         mPipelined;
     std::string                 mKey;
     const char *                mUsage;
 } init_data[LLAppCoreHttp::AP_COUNT] =
 {
     { // AP_DEFAULT
-        8,      8,      8,      0,      false,
+        8,      8,      8,      0,      0,
         "",
         "other"
     },
     { // AP_TEXTURE
-        8,      1,      12,     0,      true,
+        8,      1,      12,     0,      2,
         "TextureFetchConcurrency",
         "texture fetch"
     },
     { // AP_MESH1
-        32,     1,      128,    0,      false,
+        32,     1,      128,    0,      0,
         "MeshMaxConcurrentRequests",
         "mesh fetch"
     },
     { // AP_MESH2
-        8,      1,      32,     0,      true,
+        8,      1,      32,     0,      2,
         "Mesh2MaxConcurrentRequests",
         "mesh2 fetch"
     },
     { // AP_LARGE_MESH
-        2,      1,      8,      0,      false,
+        2,      1,      8,      0,      0,
         "",
         "large mesh fetch"
     },
     { // AP_UPLOADS
-        2,      1,      8,      0,      false,
+        2,      1,      8,      0,      0,
         "",
         "asset upload"
     },
     { // AP_LONG_POLL
-        32,     32,     32,     0,      false,
+        32,     32,     32,     0,      0,
         "",
         "long poll"
     },
     { // AP_INVENTORY
-        4,      1,      4,      0,      false,
+        4,      1,      4,      0,      0,
         "",
         "inventory"
     },
     { // AP_MATERIALS
-        2,      1,      8,      0,      false,
+        2,      1,      8,      0,      0,
         "RenderMaterials",
         "material manager requests"
     },
     { // AP_AGENT
-        2,      1,      32,     0,      false,
+        2,      1,      32,     0,      0,
         "Agent",
         "Agent requests"
     }
@@ -122,7 +122,7 @@ static void ssl_verification_changed();
 LLAppCoreHttp::HttpClass::HttpClass()
     : mPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
       mConnLimit(0U),
-      mPipelined(false)
+      mPipelined(0)
 {}
 
 
@@ -131,7 +131,7 @@ LLAppCoreHttp::LLAppCoreHttp()
       mStopHandle(LLCORE_HTTP_HANDLE_INVALID),
       mStopRequested(0.0),
       mStopped(false),
-      mPipelined(true)
+      mPipelined(1)
 {}
 
 
@@ -277,7 +277,7 @@ void LLAppCoreHttp::init()
     if (gSavedSettings.controlExists(http_pipelining))
     {
         // Default to true (in ctor) if absent.
-        mPipelined = gSavedSettings.getBOOL(http_pipelining);
+        mPipelined = gSavedSettings.getU32(http_pipelining);
         LL_INFOS("Init") << "HTTP Pipelining " << (mPipelined ? "enabled" : "disabled") << "!" << LL_ENDL;
     }
 
