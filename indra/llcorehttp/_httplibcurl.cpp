@@ -487,7 +487,7 @@ void HttpLibcurl::policyUpdated(unsigned int policy_class)
         policy.stallPolicy(policy_class, false);
         mDirtyPolicy[policy_class] = false;
 
-        if (options.mPipelining > 1)
+        if (options.mPipelining)
         {
             // We'll try to do pipelining on this multihandle
             check_curl_multi_setopt(multi_handle,
