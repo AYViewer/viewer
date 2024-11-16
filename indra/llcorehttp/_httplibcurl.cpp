@@ -493,7 +493,7 @@ void HttpLibcurl::policyUpdated(unsigned int policy_class)
             LL_INFOS("HttpLibcurl") << "HTTP Pipelining Enable." << LL_ENDL;
             check_curl_multi_setopt(multi_handle,
                                      CURLMOPT_PIPELINING,
-                                     1L);
+                                     CURLPIPE_MULTIPLEX | CURLPIPE_HTTP1);
             check_curl_multi_setopt(multi_handle,
                                      CURLMOPT_MAX_PIPELINE_LENGTH,
                                      long(options.mPipelining));
@@ -509,7 +509,7 @@ void HttpLibcurl::policyUpdated(unsigned int policy_class)
             LL_INFOS("HttpLibcurl") << "HTTP Pipelining Disable." << LL_ENDL;
             check_curl_multi_setopt(multi_handle,
                                      CURLMOPT_PIPELINING,
-                                     0L);
+                                     CURLPIPE_NOTHING);
             check_curl_multi_setopt(multi_handle,
                                      CURLMOPT_MAX_HOST_CONNECTIONS,
                                      0L);
