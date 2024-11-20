@@ -37,6 +37,7 @@ HttpPolicyClass::HttpPolicyClass()
     : mConnectionLimit(HTTP_CONNECTION_LIMIT_DEFAULT),
       mPerHostConnectionLimit(HTTP_CONNECTION_LIMIT_DEFAULT),
       mPipelining(HTTP_PIPELINING_DEFAULT),
+      mMultiplexing(HTTP_MULTIPLEXING_DEFAULT),
       mThrottleRate(HTTP_THROTTLE_RATE_DEFAULT)
 {}
 
@@ -52,6 +53,7 @@ HttpPolicyClass & HttpPolicyClass::operator=(const HttpPolicyClass & other)
         mConnectionLimit = other.mConnectionLimit;
         mPerHostConnectionLimit = other.mPerHostConnectionLimit;
         mPipelining = other.mPipelining;
+        mMultiplexing = other.mMultiplexing;
         mThrottleRate = other.mThrottleRate;
     }
     return *this;
@@ -62,6 +64,7 @@ HttpPolicyClass::HttpPolicyClass(const HttpPolicyClass & other)
     : mConnectionLimit(other.mConnectionLimit),
       mPerHostConnectionLimit(other.mPerHostConnectionLimit),
       mPipelining(other.mPipelining),
+      mMultiplexing(other.mMultiplexing),
       mThrottleRate(other.mThrottleRate)
 {}
 
